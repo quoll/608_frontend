@@ -23,7 +23,7 @@
           <tr>
             <td>Customer</td>
             <td>
-              <input type="number" name="customer_id" value="{% if purchase and purchase.customer_id %}{{ purchase.customer_id }}{% endif %}" step="1" min="1">
+              <input type="number" name="customer_id" value="{% if purchase and purchase.customer_id %}{{ purchase.customer_id }}{%else%}1{% endif %}" step="1" min="1">
             </td>
           </tr>
           <tr>
@@ -39,7 +39,7 @@
           <tr>
             <td>Purchase Amount</td>
             <td>
-              <input type="number" name="purchase_amount" value="{% if purchase and purchase.purchase_amount %}{{ purchase.purchase_amount }}{% endif %}" step="0.01" min="0.00">
+              <input type="number" name="purchase_amount" value="{% if purchase and purchase.purchase_amount %}{{ purchase.purchase_amount }}{%else%}0.00{% endif %}" step="0.01" min="0.00">
             </td>
           </tr>
           <tr>
@@ -55,7 +55,7 @@
           <tr>
             <td>Review Rating</td>
             <td>
-              <input type="number" name="review_rating" value="{% if purchase and purchase.review_rating %}{{ purchase.review_rating }}{% endif %}" step="1" min="0" max="5">
+              <input type="number" name="review_rating" value="{% if purchase and purchase.review_rating %}{{ purchase.review_rating }}{%else%}3{% endif %}" step="1" min="0" max="5">
             </td>
           </tr>
           <tr>
@@ -99,5 +99,10 @@
         </tbody>
       </table>
       <button type="submit" class="btn btn-primary">Save</button>
+      {% if purchase and purchase.purchase_id %}
+        <a href="{{ url_for('purchase', id=purchase.purchase_id) }}" class="small-button-link">Cancel</a>
+      {% else %}
+        <a href="{{ url_for('purchase') }}" class="small-button-link">Cancel</a>
+      {% endif %}
     </form>
 {% endblock %}

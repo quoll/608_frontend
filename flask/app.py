@@ -22,6 +22,9 @@ def get_db_connection():
     )
     return conn
 
+def error_response(error_text):
+    return render_template('error.html', error_text=error_text)
+
 CUSTOMER_QUERY_HDR = """
     SELECT c.customer_id, c.age, c.gender, c.subscription_status, c.previous_purchases,
            pm.payment_method, f.frequency_name, l.location_name
@@ -100,8 +103,8 @@ def purchase(id=None):
 def purchases(id=None):
     with get_db_connection() as conn:
         with conn.cursor(dictionary=True) as cur:
+            page = request.args.get('page', default=1, type=int)
             if id is None:
-                page = request.args.get('page', default=1, type=int)
                 cur.execute(f"{PURCHASE_QUERY_HDR} ORDER BY p.purchase_id LIMIT {PAGE_SIZE} OFFSET {(page - 1) * PAGE_SIZE};")
                 purchases = cur.fetchall()
                 cur.execute("SELECT COUNT(*) AS count FROM purchase;")
@@ -111,7 +114,9 @@ def purchases(id=None):
             else:
                 cur.execute(f"{PURCHASE_QUERY_HDR} WHERE p.customer_id = %s;", (id,))
                 purchases = cur.fetchall()
-                return render_template('purchases.html', purchases=purchases)
+                total_count = len(purchases)
+                return render_template('purchases.html', purchases=purchases, total_count=total_count, page_name='purchase',
+                                       page=page, max=max, min=min, ceil=math.ceil)
 
 SIMPLE_CUSTOMER_QUERY_HDR = """
     SELECT customer_id, age, gender, location_id, subscription_status,
@@ -175,6 +180,18 @@ def update_customer(id=None):
                       preferred_payment_method_id, frequency_of_purchases_id))
                 conn.commit()
     return redirect(url_for('customer', id=id))
+
+@app.route('/delete_customer/<int:id>', methods=['GET'])
+def delete_customer(id=None):
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            if id is not None:
+                cur.execute("DELETE FROM customer WHERE customer_id = %s;", (id,))
+                conn.commit()
+            else:
+                flash('Customer not found.')
+    return redirect(url_for('index'))
+
 
 SIMPLE_PURCHASE_QUERY_HDR = """
     SELECT purchase_id, item_id, customer_id, purchase_amount, season_id,
@@ -248,6 +265,24 @@ def update_purchase(id=None):
     return redirect(url_for('purchase', id=id))
 
 
+@app.route('/delete_purchase/<int:id>', methods=['GET'])
+def delete_purchase(id=None):
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            if id is not None:
+                try:
+                    cur.execute("DELETE FROM purchase WHERE purchase_id = %s;", (id,))
+                    conn.commit()
+                except mysql.connector.Error as err:
+                    if err.errno == 1451:
+                        return error_response('Cannot delete purchase. It is referenced by other records.')
+                    else:
+                        return error_response(f'Error: {err}')
+            else:
+                return error_response('Purchase not found.')
+    return redirect(url_for('purchase'))
+
+
 ITEM_QUERY_HDR = """
     SELECT i.item_id, i.item_purchased, i.category_id, c.category_name, i.size, i.color
     FROM item i INNER JOIN category c ON i.category_id = c.category_id
@@ -318,4 +353,21 @@ def update_item(id=None):
                 """, (id, item_purchased, category_id, size, color))
                 conn.commit()
     return redirect(url_for('item', id=id))
+
+@app.route('/delete_item/<int:id>', methods=['GET'])
+def delete_item(id=None):
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            if id is not None:
+                try:
+                    cur.execute("DELETE FROM item WHERE item_id = %s;", (id,))
+                    conn.commit()
+                except mysql.connector.Error as err:
+                    if err.errno == 1451:
+                        return error_response('Cannot delete item. It is referenced by other records.')
+                    else:
+                        return error_response(f'Error: {err}')
+            else:
+                return error_response('Item not found.')
+    return redirect(url_for('item'))
 

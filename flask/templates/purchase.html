@@ -13,7 +13,7 @@
       </thead>
       <tbody>
         <tr>
-          <td>Customer:</td><td colspan=2><a href="{{ url_for('customer', customer_id=purchase.customer_id) }}" class="button-link">{{ purchase.customer_id }}</a></td>
+          <td>Customer:</td><td colspan=2><a href="{{ url_for('customer', id=purchase.customer_id) }}" class="button-link">{{ purchase.customer_id }}</a></td>
         </tr>
         <tr>
           <td class="high-cell">Item:</td><td class="high-cell">{{ purchase.item_purchased }}</td>
@@ -43,4 +43,6 @@
       </tbody>
     </table>
     <a href="{{ url_for('edit_purchase', id=purchase.purchase_id) }}" class="small-button-link">Edit</a>
+    <a href="{{ url_for('delete_purchase', id=purchase.purchase_id) }}" class="small-button-link"
+      onclick="return confirm('Are you sure you want to delete purchase #{{purchase.purchase_id}}');">Delete</a>
 {% endblock %}

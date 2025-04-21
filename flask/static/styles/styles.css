@@ -86,6 +86,7 @@ input[type="number"] {
 
 .small-button-link {
   display: inline-block;
+  font-size: 0.85em;
   padding: 0px 6px;
   background-color: #d0d0d0;
   color: black;

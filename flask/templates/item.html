@@ -33,4 +33,7 @@
       </tbody>
     </table>
     <a href="{{ url_for('edit_item', id=item.item_id) }}" class="small-button-link">Edit</a>
+    <a href="{{ url_for('delete_item', id=item.item_id) }}"
+       onclick="return confirm('Are you sure you want to delete #{{item.item_id ~ ':' ~ item.item_purchased ~ ',' ~ item.size ~ ',' ~ item.color }}');"
+      class="small-button-link">Delete</a>
 {% endblock %}
