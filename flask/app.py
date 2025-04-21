@@ -53,7 +53,7 @@ def customer(id=None):
                 customers = cur.fetchall()
                 cur.execute("SELECT COUNT(*) AS count FROM customer;")
                 total_count = cur.fetchone()['count']
-                return render_template('index.html', customers=customers, page=page, total_count=total_count,
+                return render_template('index.html', customers=customers, page_name='index', page=page, total_count=total_count,
                                        max=max, min=min, ceil=math.ceil)
             else:
                 cur.execute(f"{CUSTOMER_QUERY_HDR} WHERE c.customer_id = %s;", (id,))
@@ -72,7 +72,7 @@ def index():
             cur.execute("SELECT COUNT(*) AS count FROM customer;")
             total_count = cur.fetchone()['count']
 
-    return render_template('index.html', customers=customers, page=page, total_count=total_count,
+    return render_template('index.html', customers=customers, page_name='index', page=page, total_count=total_count,
                            max=max, min=min, ceil=math.ceil)
 
 
@@ -88,7 +88,8 @@ def purchase(id=None):
                 purchases = cur.fetchall()
                 cur.execute("SELECT COUNT(*) AS count FROM purchase;")
                 total_count = cur.fetchone()['count']
-                return render_template('purchases.html', purchases=purchases, page=page, total_count=total_count)
+                return render_template('purchases.html', purchases=purchases, page_name='purchase', page=page,
+                                       total_count=total_count, max=max, min=min, ceil=math.ceil)
             else:
                 cur.execute(f"{PURCHASE_QUERY_HDR} WHERE p.purchase_id = %s;", (id,))
                 purchases = cur.fetchone()
@@ -101,9 +102,12 @@ def purchases(id=None):
         with conn.cursor(dictionary=True) as cur:
             if id is None:
                 page = request.args.get('page', default=1, type=int)
+                cur.execute(f"{PURCHASE_QUERY_HDR} ORDER BY p.purchase_id LIMIT {PAGE_SIZE} OFFSET {(page - 1) * PAGE_SIZE};")
+                purchases = cur.fetchall()
                 cur.execute("SELECT COUNT(*) AS count FROM purchase;")
                 total_count = cur.fetchone()['count']
-                return render_template('purchases.html', page=page, total_count=total_count)
+                return render_template('purchases.html', purchases=purchases, page_name='purchase', page=page,
+                                       total_count=total_count, max=max, min=min, ceil=math.ceil)
             else:
                 cur.execute(f"{PURCHASE_QUERY_HDR} WHERE p.customer_id = %s;", (id,))
                 purchases = cur.fetchall()
@@ -242,4 +246,76 @@ def update_purchase(id=None):
                       payment_method_id, shipping_type_id, discount_applied, promo_code_used))
                 conn.commit()
     return redirect(url_for('purchase', id=id))
+
+
+ITEM_QUERY_HDR = """
+    SELECT i.item_id, i.item_purchased, i.category_id, c.category_name, i.size, i.color
+    FROM item i INNER JOIN category c ON i.category_id = c.category_id
+"""
+
+@app.route('/item/')
+@app.route('/item/<int:id>')
+def item(id=None):
+    with get_db_connection() as conn:
+        with conn.cursor(dictionary=True) as cur:
+            if id is None:
+                page = request.args.get('page', default=1, type=int)
+                cur.execute(f"{ITEM_QUERY_HDR} ORDER BY i.item_id LIMIT {PAGE_SIZE} OFFSET {(page - 1) * PAGE_SIZE};")
+                items = cur.fetchall()
+                cur.execute("SELECT COUNT(*) AS count FROM item;")
+                total_count = cur.fetchone()['count']
+                return render_template('items.html', items=items, page_name='item', page=page,
+                                       total_count=total_count, max=max, min=min, ceil=math.ceil)
+            else:
+                cur.execute(f"{ITEM_QUERY_HDR} WHERE i.item_id = %s;", (id,))
+                item = cur.fetchone()
+                return render_template('item.html', item=item)
+
+
+@app.route('/edit_item/')
+@app.route('/edit_item/<int:id>')
+def edit_item(id=None):
+    with get_db_connection() as conn:
+        with conn.cursor(dictionary=True) as cur:
+            item = None
+            if id is not None:
+                cur.execute(f"{ITEM_QUERY_HDR} WHERE item_id = %s;", (id,))
+                item = cur.fetchone()
+                if item is None:
+                    flash('Item not found.')
+                    return redirect(url_for('items.html', max=max, min=min, ceil=math.ceil))
+            cur.execute("SELECT category_id, category_name FROM category;")
+            categories = cur.fetchall()
+            return render_template('edit_item.html', item=item, categories=categories)
+
+
+@app.route('/update_item/', methods=['POST'])
+@app.route('/update_item/<int:id>', methods=['POST'])
+def update_item(id=None):
+    item_purchased = request.form['item_purchased']
+    category_id = request.form['category_id']
+    size = request.form['size']
+    color = request.form['color']
+
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            if id is not None:
+                cur.execute("""
+                UPDATE item
+                SET item_purchased = %s, category_id = %s, size = %s, color = %s
+                WHERE item_id = %s;
+                """, (item_purchased, category_id, size, color, id))
+                conn.commit()
+            else:
+                cur.execute("SELECT MAX(item_id) FROM item;")
+                if row := cur.fetchone():
+                    id = row[0] + 1
+                else:
+                    id = 1
+                cur.execute("""
+                INSERT INTO item (item_id, item_purchased, category_id, size, color) VALUES
+                   (%s, %s, %s, %s, %s);
+                """, (id, item_purchased, category_id, size, color))
+                conn.commit()
+    return redirect(url_for('item', id=id))
 

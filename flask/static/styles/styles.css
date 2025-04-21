@@ -153,3 +153,17 @@ button:hover {
   visibility: visible;
   opacity: 1;
 }
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.nav-group {
+  display: flex;
+  gap: 8px;
+}
+

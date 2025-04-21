@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %}
+  {% if item and item.item_id %} Item #{{ item.item_id }}{% else %} New Item {% endif %}
+  {% endblock %}</h1>
+  <form method="POST" action=
+        {%if item and item.item_id %}"{{url_for('update_item', id=item.item_id)}}"
+        {%else%}"{{url_for('update_item')}}"
+        {%endif%}>
+      <table class="item-table">
+        <colgroup>
+          <col style="width: 30%;">
+          <col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Field</th><th colspan=2>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Name</td>
+            <td><input type="text" name="item_purchased" value="{% if item and item.item_purchased %}{{ item.item_purchased }}{% endif %}" required></td>
+          </tr>
+          <tr>
+            <td>Category</td>
+            <td>
+              <select name="category_id">
+                {% for c in categories %}
+                  <option value="{{ c.category_id }}" {%if item and item.category_id == c.category_id%}selected{%endif%}>{{ c.category_name }}</option>
+                {% endfor %}
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Size</td>
+            <td><input type="text" name="size" value="{% if item and item.size %}{{ item.size }}{% endif %}" required></td>
+          </tr>
+          <tr>
+            <td>Color</td>
+            <td><input type="text" name="color" value="{% if item and item.color %}{{ item.color }}{% endif %}" required></td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+{% endblock %}

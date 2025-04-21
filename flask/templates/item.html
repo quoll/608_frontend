@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %}Item #{{item.item_id}}{% endblock %}</h1>
+    <table class="item-table">
+      <colgroup>
+        <col style="width: 30%;">
+        <col>
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Field</th><th colspan=2>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Name</td>
+          <td>{{ item.item_purchased }}</td>
+        </tr>
+        <tr>
+          <td>Category</td>
+          <td>{{ item.category_name }}</td>
+        </tr>
+        <tr>
+          <td>Size</td>
+          <td>{{ item.size }}</td>
+        </tr>
+        <tr>
+          <td>Color</td>
+          <td>{{ item.color }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <a href="{{ url_for('edit_item', id=item.item_id) }}" class="small-button-link">Edit</a>
+{% endblock %}

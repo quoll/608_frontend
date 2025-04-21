@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+    <h1>{% block title %} Items {% endblock %}</h1>
+    {% block content %}
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Size</th>
+          <th>Color</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td><a href="{{ url_for('item', id=item.item_id) }}" class="button-link">{{item.item_id}}</a></td>
+          <td>{{ item.item_purchased }}</td>
+          <td>{{ item.category_name }}</td>
+          <td>{{ item.size }}</td>
+          <td>{{ item.color }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% include "pagination.html" %}
+
+{% endblock %}

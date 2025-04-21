@@ -2,16 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
     <title>{% block title %} {% endblock %}- CMSC-608 Assignment 6</title>
 </head>
 <body>
     <div id="main-wrapper">
       <nav class="navbar">
-        <a href="{{ url_for('index') }}" class="button-link">Customers</a>
-        <a href="{{ url_for('purchase') }}" class="button-link">Purchases</a>
-        <a href="{{ url_for('edit_customer') }}" class="button-link">New Customer</a>
-        <a href="{{ url_for('edit_purchase') }}" class="button-link">New Purchase</a>
+        <div class="nav-group nav-left">
+          <a href="{{ url_for('index') }}" class="button-link">Customers</a>
+          <a href="{{ url_for('purchase') }}" class="button-link">Purchases</a>
+          <a href="{{ url_for('item') }}" class="button-link">Items</a>
+        </div>
+        <div class="nav-group nav-right">
+          <a href="{{ url_for('edit_customer') }}" class="button-link">New Customer</a>
+          <a href="{{ url_for('edit_purchase') }}" class="button-link">New Purchase</a>
+          <a href="{{ url_for('edit_item') }}" class="button-link">New Item</a>
+        </div>
       </nav>
       <div class="container">
         <div class="content">
