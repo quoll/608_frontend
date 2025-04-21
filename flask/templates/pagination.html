@@ -1,0 +1,21 @@
+    <br>
+    Page {{ page }} of {{ ceil(total_count / 50) }}<br>
+    {% if page > 1 %}
+      <a href="{{ url_for('index', page=page-1) }}">Previous</a>&nbsp;
+    {% endif %}                                                                                                                                     
+    {% if page > 7 %}<a href="{{ url_for('index', page=1) }}">1</a> ...                          
+      {%elif page == 7%}<a href="{{ url_for('index', page=1) }}">1</a>
+      {%endif%}                                                                                                                                     
+    {% for i in range(max(page-5, 1), min(page+5, ceil(total_count / 50)+1)) %}
+      {% if i == page %}
+        <strong>{{ i }}</strong>
+      {% else %}
+        <a href="{{ url_for('index', page=i) }}">{{ i }}</a>
+      {% endif %}
+    {% endfor %}
+    {% if page < ceil(total_count / 50) - 7 %}... <a href="{{ url_for('index', page=ceil(total_count / 50)) }}">{{ ceil(total_count / 50) }}</a>
+      {%elif page == ceil(total_count / 50) - 7%}<a href="{{ url_for('index', page=ceil(total_count / 50)) }}">{{ ceil(total_count / 50) }}</a>
+      {%endif%}
+    {% if page < ceil(total_count / 50) %}
+      &nbsp;<a href="{{ url_for('index', page=page+1) }}">Next</a>
+    {% endif %}

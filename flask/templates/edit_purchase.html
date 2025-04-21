@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %}
+  {% if purchase and purchase.purchase_id %} Purchase #{{ purchase.purchase_id }}{% else %} New Purchase {% endif %}
+  {% endblock %}</h1>
+  <form method="POST" action=
+        {%if purchase and purchase.purchase_id %}"{{url_for('update_purchase', id=purchase.purchase_id)}}"
+        {%else%}"{{url_for('update_purchase')}}"
+        {%endif%}>
+      <table class="item-table">
+        <colgroup>
+          <col style="width: 30%;">
+          <col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Field</th><th colspan=2>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Customer</td>
+            <td>
+              <input type="number" name="customer_id" value="{% if purchase and purchase.customer_id %}{{ purchase.customer_id }}{% endif %}" step="1" min="1">
+            </td>
+          </tr>
+          <tr>
+            <td>Item</td>
+            <td>
+              <select name="item">
+                {% for i in items %}
+                  <option value="{{ i.item_id }}" {%if purchase and purchase.item_id == i.item_id%}selected{%endif%}>{{ i.item_purchased }},{{ i.size }},{{ i.color }}</option>
+                {% endfor %}
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Purchase Amount</td>
+            <td>
+              <input type="number" name="purchase_amount" value="{% if purchase and purchase.purchase_amount %}{{ purchase.purchase_amount }}{% endif %}" step="0.01" min="0.00">
+            </td>
+          </tr>
+          <tr>
+            <td>Season</td>
+            <td>
+              <select name="season_id">
+                {% for s in seasons %}
+                  <option value="{{ s.season_id }}" {%if purchase and purchase.season_id == s.season_id%}selected{%endif%}>{{ s.season_name }}</option>
+                {% endfor %}
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Review Rating</td>
+            <td>
+              <input type="number" name="review_rating" value="{% if purchase and purchase.review_rating %}{{ purchase.review_rating }}{% endif %}" step="1" min="0" max="5">
+            </td>
+          </tr>
+          <tr>
+            <td>Payment Method</td>
+            <td>
+              <select name="payment_method_id">
+                {% for pm in payment_methods %}
+                  <option value="{{ pm.payment_method_id }}" {%if purchase and purchase.preferred_payment_method_id == pm.payment_method_id%}selected{%endif%}>{{ pm.payment_method }}</option>
+                {% endfor %}
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Shipping Type</td>
+            <td>
+              <select name="shipping_type_id">
+                {% for s in shipping_types %}
+                  <option value="{{ s.shipping_type_id }}" {%if purchase and purchase.shipping_type_id == s.shipping_type_id%}selected{%endif%}>{{ s.shipping_type_name }}</option>
+                {% endfor %}
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Discount Applied</td>
+            <td>
+              <select name="discount_applied">
+                <option value="Yes" {%if purchase and purchase.discount_applied == "Yes"%}selected{%endif%}>Yes</option>
+                <option value="No" {%if purchase and purchase.discount_applied == "No"%}selected{%endif%}>No</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Promo Code Used</td>
+            <td>
+              <select name="promo_code_used">
+                <option value="Yes" {%if purchase and purchase.promo_code_used == "Yes"%}selected{%endif%}>Yes</option>
+                <option value="No" {%if purchase and purchase.promo_code_used == "No"%}selected{%endif%}>No</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+{% endblock %}

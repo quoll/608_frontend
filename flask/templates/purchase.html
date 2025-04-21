@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{% block title %} Purchase #{{purchase.purchase_id}} {% endblock %}</h1>
+    <table class="item-table">
+        <colgroup>
+          <col style="width: 30%;">
+          <col>
+          <col>
+        </colgroup>
+      <thead>
+        <tr><th>Field</th><th colspan=2>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Customer:</td><td colspan=2><a href="{{ url_for('customer', customer_id=purchase.customer_id) }}" class="button-link">{{ purchase.customer_id }}</a></td>
+        </tr>
+        <tr>
+          <td class="high-cell">Item:</td><td class="high-cell">{{ purchase.item_purchased }}</td>
+          <td>{{ purchase.category_name }}<br>{{ purchase.size }}<br>{{ purchase.color }}</td>
+        </tr>
+        <tr>
+          <td>Amount:</td><td colspan=2>{{ purchase.purchase_amount }}</td>
+        </tr>
+        <tr>
+          <td>Season:</td><td colspan=2>{{ purchase.season_name }}</td>
+        </tr>
+        <tr>
+          <td>Rating:</td><td colspan=2>{{ purchase.review_rating }}</td>
+        </tr>
+        <tr>
+          <td>Payment Method:</td><td colspan=2>{{ purchase.payment_method }}</td>
+        </tr>
+        <tr>
+          <td>Shipping Type:</td><td colspan=2>{{ purchase.shipping_type_name }}</td>
+        </tr>
+        <tr>
+          <td>Discount:</td><td colspan=2>{{ purchase.discount_applied }}</td>
+        </tr>
+        <tr>
+          <td>Promo Code Used:</td><td colspan=2>{{ purchase.promo_code_used }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <a href="{{ url_for('edit_purchase', id=purchase.purchase_id) }}" class="small-button-link">Edit</a>
+{% endblock %}

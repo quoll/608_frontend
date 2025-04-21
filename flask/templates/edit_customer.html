@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %}
+  {% if customer and customer.customer_id %} Customer #{{ customer.customer_id }}{% else %} New Customer {% endif %}
+  {% endblock %}</h1>
+  <form method="POST" action=
+        {%if customer and customer.customer_id %}"{{url_for('update_customer', id=customer.customer_id)}}"
+        {%else%}"{{url_for('update_customer')}}"
+        {%endif%}>
+      <table class="item-table">
+        <colgroup>
+          <col style="width: 30%;">
+          <col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Field</th><th colspan=2>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Age</td>
+            <td><input type="number" name="age" value="{% if customer and customer.age %}{{ customer.age }}{% endif %}" step="1" min="0"></td>
+          </tr>
+          <tr>
+            <td>Gender</td>
+            <td>
+              <select name="gender">
+                <option value="Female" {%if customer and customer.gender == "Female"%}selected{%endif%}>Female</option>
+                <option value="Male" {%if customer and customer.gender == "Male"%}selected{%endif%}>Male</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Subscription Status</td>
+            <td>
+              <select name="subscription_status">
+                <option value="Yes" {%if customer and customer.subscription_status == "Yes"%}selected{%endif%}>Yes</option>
+                <option value="No" {%if customer and customer.subscription_status == "No"%}selected{%endif%}>No</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Previous Purchases</td>
+            <td><input type="number" name="previous_purchases" value="{% if customer and customer.previous_purchases %}{{ customer.previous_purchases }}{% endif %}" step="1" min="0"></td>
+          </tr>
+          <tr>
+            <td>Payment Method</td>
+            <td>
+              <select name="payment_method">
+                {% for pm in payment_methods %}
+                  <option value="{{ pm.payment_method_id }}" {%if customer and customer.preferred_payment_method_id == pm.payment_method_id%}selected{%endif%}>{{ pm.payment_method }}</option>
+                {% endfor %}
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Frequency Name</td>
+            <td>
+              <select name="frequency">
+                {% for f in frequencies %}
+                  <option value="{{ f.frequency_id }}" {%if customer and customer.frequency_of_purchases_id == f.frequency_id%}selected{%endif%}>{{ f.frequency_name }}</option>
+                {% endfor %}
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Location Name</td>
+            <td>
+              <select name="location">
+                {% for l in locations %}
+                  <option value="{{ l.location_id }}" {%if customer and customer.location_id == l.location_id%}selected{%endif%}>{{ l.location_name }}</option>
+                {% endfor %}
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+{% endblock %}

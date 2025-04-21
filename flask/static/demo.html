@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+
+    td {
+      padding: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: default;
+    }
+
+    .tooltip-text {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      margin-bottom: 6px;
+      background-color: #333;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      line-height: 1.4;
+      white-space: nowrap;
+      z-index: 9999;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    .tooltip:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <br>
+  <p>test</p>
+  <br>
+  <table>
+    <tr>
+      <td>
+        <span class="tooltip">
+          Blouse
+          <span class="tooltip-text">• Clothing<br>• L<br>• Gray</span>
+        </span>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
