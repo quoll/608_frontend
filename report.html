@@ -82,7 +82,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#database-ui" id="toc-database-ui" class="nav-link active" data-scroll-target="#database-ui">Database UI</a>
   <ul class="collapse">
-  <li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description">Description</a>
+  <li><a href="#schema-description" id="toc-schema-description" class="nav-link" data-scroll-target="#schema-description">Schema Description</a>
+  <ul class="collapse">
+  <li><a href="#er-diagrams" id="toc-er-diagrams" class="nav-link" data-scroll-target="#er-diagrams">ER Diagrams</a></li>
+  </ul></li>
+  <li><a href="#ui-description" id="toc-ui-description" class="nav-link" data-scroll-target="#ui-description">UI Description</a>
   <ul class="collapse">
   <li><a href="#env-file" id="toc-env-file" class="nav-link" data-scroll-target="#env-file"><code>.env</code> file</a></li>
   </ul></li>
@@ -100,9 +104,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#item-view" id="toc-item-view" class="nav-link" data-scroll-target="#item-view">Item View</a></li>
   </ul></li>
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#developer-comments" id="toc-developer-comments" class="nav-link" data-scroll-target="#developer-comments">Developer Comments</a>
+  <ul class="collapse">
+  <li><a href="#ui-requirements" id="toc-ui-requirements" class="nav-link" data-scroll-target="#ui-requirements">UI Requirements</a></li>
+  <li><a href="#clientserver-model" id="toc-clientserver-model" class="nav-link" data-scroll-target="#clientserver-model">Client/Server Model</a></li>
+  <li><a href="#deployment" id="toc-deployment" class="nav-link" data-scroll-target="#deployment">Deployment</a></li>
+  </ul></li>
   </ul></li>
   </ul>
-</nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="report.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
 <main class="content" id="quarto-document-content">
 
@@ -135,8 +145,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Database UI</h1>
 <p>This project expands on using the contents of the <a href="https://github.com/quoll/608_HW3_ERModels/blob/main/shopping_trends.csv">Shopping Trends</a> file from <a href="https://github.com/quoll/608_HW3_ERModels">Assignment 3</a>, and the SQL access demonstrated in <a href="https://github.com/quoll/608_SQL">Assignment 5</a>. The schema and data files from those projects have been duplicated into this project.</p>
 <p>This report is available at <a href="https://quoll.github.io/608_frontend/report.html">https://quoll.github.io/608_frontend/report.html</a></p>
-<section id="description" class="level2">
-<h2 class="anchored" data-anchor-id="description">Description</h2>
+<section id="schema-description" class="level2">
+<h2 class="anchored" data-anchor-id="schema-description">Schema Description</h2>
+<p>This reiterates the description given in <a href="https://quoll.github.io/608_SQL/report.html">Assignment 5</a>. See that report for more detailed design information about individual fields.</p>
+<p>The <code>Customer</code> entity is treated as a unique individual, independent of any purchases.</p>
+<p>The <code>Item</code> entity is the description of a commodity type.</p>
+<p>The <code>Purchase</code> entity records a transaction in which a <code>Customer</code> obtains an instant of an <code>Item</code>.</p>
+<p>While the original dataset has a one-to-one connection between customers and purchases, this database has been designed to allow a new <code>Customer</code> with no <code>Purchases</code> yet, and for <code>Customers</code> to make multiple <code>Purchases</code>.</p>
+<p>Many of the attributes of each of these entities are theoretically configurable. For instance, a <code>Customer</code>’s <code>location</code> can be any of the US states, but a future version may need to expand this to US territories or other countries. Similarly for shipping types, Item categories, Seasons (for instance, “Christmas” and “Halloween”), payment methods, and shopping frequencies.</p>
+<section id="er-diagrams" class="level3">
+<h3 class="anchored" data-anchor-id="er-diagrams">ER Diagrams</h3>
+<p>The ER Diagrams from Assignment 5 are included here for convenience.</p>
+<img src="https://quoll.github.io/608_SQL/diagrams/shopping_trends_chen.png" alt="Shopping Trends Chen ER Diagram" width="60%">
+<figcaption>
+Shopping Trends Chen ER Diagram
+</figcaption>
+<img src="https://quoll.github.io/608_SQL/diagrams/shopping_trends.png" alt="SShopping Trends Crows Foot ER Diagram" width="60%">
+<figcaption>
+Shopping Trends Crows Foot ER Diagram
+</figcaption>
+</section>
+</section>
+<section id="ui-description" class="level2">
+<h2 class="anchored" data-anchor-id="ui-description">UI Description</h2>
 <p>This UI has been built using <a href="https://flask.palletsprojects.com/">Flask</a> and the <a href="https://dev.mysql.com/doc/connector-python/en/">MySQL-connector</a> Python library. All required packages are described in the <a href="https://github.com/quoll/608_frontend/blob/main/flask/requirements.txt">requirements.txt</a> file. Because the UI is built using Flask, it is not available online, though it can be run locally.</p>
 <p>To run the application:</p>
 <ul>
@@ -324,6 +355,27 @@ New Item Screen
 <h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>The schema is in <a href="https://quoll.github.io/608_frontend/data/definitions.sql"><code>data/definitions.sql</code></a></p>
 <p>The data is found in <a href="https://quoll.github.io/608_frontend/data/data.sql"><code>data/data.sql</code></a></p>
+</section>
+<section id="developer-comments" class="level2">
+<h2 class="anchored" data-anchor-id="developer-comments">Developer Comments</h2>
+<section id="ui-requirements" class="level3">
+<h3 class="anchored" data-anchor-id="ui-requirements">UI Requirements</h3>
+<p>It is difficult to design a user interface without requirements. The approach I took was to implement standard operations around the major entities, and expanding these as I progressed.</p>
+<p>Given that the original data is a static CSV file, having a site that simply displayed the data may have been considered adequate. But a normal system would expect users to enter new data as it became available, so it seemed reasonable to include this functionality. Similarly, if data can be added, it should be modifyable, to correct errors. Similarly, it should be possible to remove data.</p>
+<p>While it is possible to expand this system to make each of the tables editable (so users can add things like shipping types or locations) this level of expansion would significantly expand on the scope of a project which did not imply that it needed to go that far. The chosen feature set is typical of an initial release.</p>
+</section>
+<section id="clientserver-model" class="level3">
+<h3 class="anchored" data-anchor-id="clientserver-model">Client/Server Model</h3>
+<p>A project like this may often make heavy use of Javascript for validation, and for appealing effects and user interactions. This is not an area in which I excel, so I have chosen a utilitarian UI, though I do believe it is pragmatic.</p>
+<p>Modern day software will also have a much more capable client that changes its own rendering and interacts with the server almost entirely through microservices. This contrasts with the Flask application presented here, where the client pages are static, and workflow is managed by the server. This is not to say that the submitted application is inadequate, but it does not reflect contemporary deployment styles.</p>
+</section>
+<section id="deployment" class="level3">
+<h3 class="anchored" data-anchor-id="deployment">Deployment</h3>
+<p>Finally, I am uncomfortable with providing only the source code and description without presenting a running system. However, most available architectures would require a SQL database for the UI to interact with, which I do not have free access to.</p>
+<p>Some alternatives do exist. One is to use a free service like Google Sheets to manage the database. This is possible, but does not provide a SQL API. Another is to run a database within the web page. <a href="https://www.sqlite.org/wasm/doc/trunk/index.md">SQLite is available as a Web Assembly module</a>, and page initialization could load the schema and data files. An alternative is <a href="https://github.com/jlongster/absurd-sql">Absurd SQL</a> which reimplements SQLite in Javascript, using IndexedDB for persistence.</p>
+<p>Running a database within the page changes the characteristics of the system significantly. The data would suddenly become private, and would need an explicit export mechanism to share changes. The implementation would also need to move entirely into Javascript, which introduces new complexity, and may not have been feasible in the provided timeframe.</p>
+<p>The existing Flask application speaking to a MySQL service may require more work on the part of the user to set it up, but it offers a more flexible and extensible architecture. For instance, the database could be changed quite easily to SQLite, Postgres, or many others. Also, the Flask pages are simple and template driven. This appears to be suitable for the assignment, even with the frustrating lack of a live deployment option.</p>
+</section>
 </section>
 </section>
 

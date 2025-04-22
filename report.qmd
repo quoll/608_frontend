@@ -3,6 +3,7 @@ title: "Assignment 6 Database UI"
 format:
     html:
         code-fold: true
+    pdf: default
 author: "Paula Gearon"
 url: "https://quoll.github.io/608_frontend/report.html"
 github: "https://github.com/quoll/608_frontend"
@@ -15,7 +16,30 @@ This project expands on using the contents of the [Shopping Trends](https://gith
 
 This report is available at [https://quoll.github.io/608_frontend/report.html](https://quoll.github.io/608_frontend/report.html)
 
-## Description
+## Schema Description
+
+This reiterates the description given in [Assignment 5](https://quoll.github.io/608_SQL/report.html). See that report for more detailed design information about individual fields.
+
+The `Customer` entity is treated as a unique individual, independent of any purchases.
+
+The `Item` entity is the description of a commodity type.
+
+The `Purchase` entity records a transaction in which a `Customer` obtains an instant of an `Item`.
+
+While the original dataset has a one-to-one connection between customers and purchases, this database has been designed to allow a new `Customer` with no `Purchases` yet, and for `Customers` to make multiple `Purchases`.
+
+Many of the attributes of each of these entities are theoretically configurable. For instance, a `Customer`'s `location` can be any of the US states, but a future version may need to expand this to US territories or other countries. Similarly for shipping types, Item categories, Seasons (for instance, "Christmas" and "Halloween"), payment methods, and shopping frequencies.
+
+### ER Diagrams
+The ER Diagrams from Assignment 5 are included here for convenience.
+
+<img src="https://quoll.github.io/608_SQL/diagrams/shopping_trends_chen.png" alt="Shopping Trends Chen ER Diagram" width="60%">
+<figcaption>Shopping Trends Chen ER Diagram</figcaption>
+
+<img src="https://quoll.github.io/608_SQL/diagrams/shopping_trends.png" alt="SShopping Trends Crows Foot ER Diagram" width="60%">
+<figcaption>Shopping Trends Crows Foot ER Diagram</figcaption>
+
+## UI Description
 
 This UI has been built using [Flask](https://flask.palletsprojects.com/) and the [MySQL-connector](https://dev.mysql.com/doc/connector-python/en/) Python library. All required packages are described in the [requirements.txt](https://github.com/quoll/608_frontend/blob/main/flask/requirements.txt) file. Because the UI is built using Flask, it is not available online, though it can be run locally.
 
@@ -166,3 +190,25 @@ Selecting the "Edit" button will take you to the Item Edit page, where the infor
 The schema is in [`data/definitions.sql`](https://quoll.github.io/608_frontend/data/definitions.sql)
 
 The data is found in [`data/data.sql`](https://quoll.github.io/608_frontend/data/data.sql)
+
+## Developer Comments
+### UI Requirements
+It is difficult to design a user interface without requirements. The approach I took was to implement standard operations around the major entities, and expanding these as I progressed.
+
+Given that the original data is a static CSV file, having a site that simply displayed the data may have been considered adequate. But a normal system would expect users to enter new data as it became available, so it seemed reasonable to include this functionality. Similarly, if data can be added, it should be modifyable, to correct errors. Similarly, it should be possible to remove data.
+
+While it is possible to expand this system to make each of the tables editable (so users can add things like shipping types or locations) this level of expansion would significantly expand on the scope of a project which did not imply that it needed to go that far. The chosen feature set is typical of an initial release.
+
+### Client/Server Model
+A project like this may often make heavy use of Javascript for validation, and for appealing effects and user interactions. This is not an area in which I excel, so I have chosen a utilitarian UI, though I do believe it is pragmatic.
+
+Modern day software will also have a much more capable client that changes its own rendering and interacts with the server almost entirely through microservices. This contrasts with the Flask application presented here, where the client pages are static, and workflow is managed by the server. This is not to say that the submitted application is inadequate, but it does not reflect contemporary deployment styles.
+
+### Deployment
+Finally, I am uncomfortable with providing only the source code and description without presenting a running system. However, most available architectures would require a SQL database for the UI to interact with, which I do not have free access to.
+
+Some alternatives do exist. One is to use a free service like Google Sheets to manage the database. This is possible, but does not provide a SQL API. Another is to run a database within the web page. [SQLite is available as a Web Assembly module](https://www.sqlite.org/wasm/doc/trunk/index.md), and page initialization could load the schema and data files. An alternative is [Absurd SQL](https://github.com/jlongster/absurd-sql) which reimplements SQLite in Javascript, using IndexedDB for persistence.
+
+Running a database within the page changes the characteristics of the system significantly. The data would suddenly become private, and would need an explicit export mechanism to share changes. The implementation would also need to move entirely into Javascript, which introduces new complexity, and may not have been feasible in the provided timeframe.
+
+The existing Flask application speaking to a MySQL service may require more work on the part of the user to set it up, but it offers a more flexible and extensible architecture. For instance, the database could be changed quite easily to SQLite, Postgres, or many others. Also, the Flask pages are simple and template driven. This appears to be suitable for the assignment, even with the frustrating lack of a live deployment option.
