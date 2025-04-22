@@ -13,7 +13,7 @@ toc: true
 
 This project expands on using the contents of the [Shopping Trends](https://github.com/quoll/608_HW3_ERModels/blob/main/shopping_trends.csv) file from [Assignment 3](https://github.com/quoll/608_HW3_ERModels), and the SQL access demonstrated in [Assignment 5](https://github.com/quoll/608_SQL). The schema and data files from those projects have been duplicated into this project.
 
-This report is available at [https://quoll.github.io/608_frontend/](https://quoll.github.io/608_frontend/)
+This report is available at [https://quoll.github.io/608_frontend/report.html](https://quoll.github.io/608_frontend/report.html)
 
 ## Description
 
