@@ -81,7 +81,6 @@ The Items page can be accessed by selecting the "Items" link in the navigation b
 As mentioned above, each of the preceding listings are shown in lists of 50 elements at a time. An example of the paging controls (from the bottom of Customers) is shown here.
 
 <img src="https://quoll.github.io/608_frontend/images/paging.png" alt="Paging Controls" width="40%">
-<figcaption>Paging Controls</figcaption>
 
 ## View and Editing Pages
 ### Customer View
@@ -107,7 +106,6 @@ Examples of the Customer Edit and New Customer screens are shown here:
 
 ![Customer Edit Screen](https://quoll.github.io/608_frontend/images/ecustomer.png)
 <img src="https://quoll.github.io/608_frontend/images/new_customer.png" alt="New Customer Screen" width="40%">
-<figcaption>New Customer Screen</figcaption>
 
 ### Purchase View
 The Purchase View page can be accessed by selecting the purchase ID button in the Purchases page. This page shows the Purchase ID in the header, and displays all of the information for that purchase:
@@ -131,9 +129,7 @@ Selecting the "Edit" button will take you to the Purchase Edit page, where the i
 The "Save" button will save the changes to the database, and the "Cancel" button will take you back to the Purchase View page without saving any changes.
 
 <img src="https://quoll.github.io/608_frontend/images/epurchase.png" alt="Purchase Edit Screen" width="40%">
-<figcaption>Purchase Edit Screen</figcaption>
 <img src="https://quoll.github.io/608_frontend/images/new_purchase.png" alt="New Purchase Screen" width="40%">
-<figcaption>New Purchase Screen</figcaption>
 
 ### Item View
 The Item View page can be accessed by selecting the item ID button in the Items page. This page shows the Item ID in the header, and displays all of the information for that item:
@@ -150,9 +146,7 @@ This screen also has a **Delete** button. This can be used to remove the item fr
 Selecting the "Edit" button will take you to the Item Edit page, where the information can be editing using the same layout as the Item View page. Selecting the "Save" button will save the changes to the database, and the "Cancel" button will take you back to the Item View page without saving any changes.
 
 <img src="https://quoll.github.io/608_frontend/images/eitem.png" alt="Item Edit Screen" width="40%">
-<figcaption>Item Edit Screen</figcaption>
 <img src="https://quoll.github.io/608_frontend/images/new_item.png" alt="New Item Screen" width="40%">
-<figcaption>New Item Screen</figcaption>
 
 ## Data
 The schema is in [`data/definitions.sql`](https://quoll.github.io/608_frontend/data/definitions.sql)
