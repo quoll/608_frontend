@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>{% block title %}
-  {% if item and item.item_id %} Item #{{ item.item_id }}{% else %} New Item {% endif %}
+  {% if item and item.item_id is not none %} Item #{{ item.item_id }}{% else %} New Item {% endif %}
   {% endblock %}</h1>
   <form method="POST" action=
         {%if item and item.item_id %}"{{url_for('update_item', id=item.item_id)}}"

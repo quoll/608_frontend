@@ -1,47 +1,47 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Purchases {% endblock %}</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Customer</th>
-          <th>Item</th>
-          <th>Amount</th>
-          <th>Season</th>
-          <th>Rating</th>
-          <th>Payment Method</th>
-          <th>Shipping Type</th>
-          <th>Discount</th>
-          <th>Promo Code Used</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for purchase in purchases %}
-        <tr>
-          <td><a href="{{ url_for('purchase', id=purchase.purchase_id) }}" class="button-link">{{purchase.purchase_id}}</a></td>
-          <td>
-            <div class="tooltip">
-              <a href="{{ url_for('customer', id=purchase.customer_id) }}" class="button-link">{{ purchase.customer_id }}</a>
-              <span class= "tooltip-text">Go to Customer</span>
-            </div>
-          </td>
-          <td>
-            <div class="tooltip">{{ purchase.item_purchased }}
-              <span class="tooltip-text">• {{purchase.category_name}}<br>• {{purchase.size}}<br>• {{purchase.color}}</span>
-            </div>
-          </td>
-          <td>{{ purchase.purchase_amount }}</td>
-          <td>{{ purchase.season_name }}</td>
-          <td>{{ purchase.review_rating }}</td>
-          <td>{{ purchase.payment_method }}</td>
-          <td>{{ purchase.shipping_type_name }}</td>
-          <td>{{ purchase.discount_applied }}</td>
-          <td>{{ purchase.promo_code_used }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {% include "pagination.html" %}
+  <h1>{% block title %} Purchases {% endblock %}</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Customer</th>
+        <th>Item</th>
+        <th>Amount</th>
+        <th>Season</th>
+        <th>Rating</th>
+        <th>Payment Method</th>
+        <th>Shipping Type</th>
+        <th>Discount</th>
+        <th>Promo Code Used</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for purchase in purchases %}
+      <tr>
+        <td><a href="{{ url_for('purchase', id=purchase.purchase_id) }}" class="button-link">{{purchase.purchase_id}}</a></td>
+        <td>
+          <div class="tooltip">
+            <a href="{{ url_for('customer', id=purchase.customer_id) }}" class="button-link">{{ purchase.customer_id }}</a>
+            <span class= "tooltip-text">Go to Customer</span>
+          </div>
+        </td>
+        <td>
+          <div class="tooltip">{{ purchase.item_purchased }}
+            <span class="tooltip-text">• {{purchase.category_name}}<br>• {{purchase.size}}<br>• {{purchase.color}}</span>
+          </div>
+        </td>
+        <td>{{ purchase.purchase_amount }}</td>
+        <td>{{ purchase.season_name }}</td>
+        <td>{{ purchase.review_rating }}</td>
+        <td>{{ purchase.payment_method }}</td>
+        <td>{{ purchase.shipping_type_name }}</td>
+        <td>{{ purchase.discount_applied }}</td>
+        <td>{{ purchase.promo_code_used }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include "pagination.html" %}
 {% endblock %}

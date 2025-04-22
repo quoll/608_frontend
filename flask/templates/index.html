@@ -1,37 +1,37 @@
 {% extends 'base.html' %}
 
-    <h1>{% block title %} Customers {% endblock %}</h1>
-    {% block content %}
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Age</th>
-          <th>Gender</th>
-          <th>Subscription Status</th>
-          <th>Previous Purchases</th>
-          <th>Payment Method</th>
-          <th>Frequency Name</th>
-          <th>Location Name</th>
-          <th>Purchase</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for customer in customers %}
-        <tr>
-          <td><a href="{{ url_for('customer', id=customer.customer_id) }}" class="button-link">{{customer.customer_id}}</a></td>
-          <td>{{ customer.age }}</td>
-          <td>{{ customer.gender }}</td>
-          <td>{{ customer.subscription_status }}</td>
-          <td>{{ customer.previous_purchases }}</td>
-          <td>{{ customer.payment_method }}</td>
-          <td>{{ customer.frequency_name }}</td>
-          <td>{{ customer.location_name }}</td>
-          <td><a href="{{ url_for('purchases', id=customer.customer_id) }}" class="button-link">...</a></td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {% include "pagination.html" %}
+{% block content %}
+  <h1>{% block title %} Customers {% endblock %}</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Subscription Status</th>
+        <th>Previous Purchases</th>
+        <th>Payment Method</th>
+        <th>Frequency Name</th>
+        <th>Location Name</th>
+        <th>Purchase</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for customer in customers %}
+      <tr>
+        <td><a href="{{ url_for('customer', id=customer.customer_id) }}" class="button-link">{{customer.customer_id}}</a></td>
+        <td>{{ customer.age }}</td>
+        <td>{{ customer.gender }}</td>
+        <td>{{ customer.subscription_status }}</td>
+        <td>{{ customer.previous_purchases }}</td>
+        <td>{{ customer.payment_method }}</td>
+        <td>{{ customer.frequency_name }}</td>
+        <td>{{ customer.location_name }}</td>
+        <td><a href="{{ url_for('purchases', id=customer.customer_id) }}" class="button-link">...</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include "pagination.html" %}
 
 {% endblock %}
