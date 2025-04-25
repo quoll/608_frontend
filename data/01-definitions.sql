@@ -3,15 +3,21 @@ CREATE TABLE IF NOT EXISTS payment_method (
     payment_method VARCHAR(16) NOT NULL
 );
 
+ALTER TABLE payment_method AUTO_INCREMENT = 7;
+
 CREATE TABLE IF NOT EXISTS frequency (
     frequency_id SERIAL PRIMARY KEY,
     frequency_name VARCHAR(16) NOT NULL
 );
 
+ALTER TABLE frequency AUTO_INCREMENT = 8;
+
 CREATE TABLE IF NOT EXISTS location (
     location_id SERIAL PRIMARY KEY,
     location_name VARCHAR(16) NOT NULL
 );
+
+ALTER TABLE location AUTO_INCREMENT = 51;
 
 CREATE TABLE IF NOT EXISTS customer (
     customer_id SERIAL PRIMARY KEY,
@@ -27,10 +33,14 @@ CREATE TABLE IF NOT EXISTS customer (
     FOREIGN KEY (location_id) REFERENCES location(location_id)
 );
 
+ALTER TABLE customer AUTO_INCREMENT = 3901;
+
 CREATE TABLE IF NOT EXISTS category (
     category_id SERIAL PRIMARY KEY,
     category_name VARCHAR(16) NOT NULL
 );
+
+ALTER TABLE category AUTO_INCREMENT = 5;
 
 CREATE TABLE IF NOT EXISTS item (
     item_id SERIAL PRIMARY KEY,
@@ -41,15 +51,21 @@ CREATE TABLE IF NOT EXISTS item (
     FOREIGN KEY (category_id) REFERENCES category(category_id)
 );
 
+ALTER TABLE item AUTO_INCREMENT = 1824;
+
 CREATE TABLE IF NOT EXISTS season (
     season_id SERIAL PRIMARY KEY,
     season_name VARCHAR(16) NOT NULL
 );
 
+ALTER TABLE season AUTO_INCREMENT = 5;
+
 CREATE TABLE IF NOT EXISTS shipping_type (
     shipping_type_id SERIAL PRIMARY KEY,
     shipping_type_name VARCHAR(16) NOT NULL
 );
+
+ALTER TABLE shipping_type AUTO_INCREMENT = 7;
 
 CREATE TABLE IF NOT EXISTS purchase (
     purchase_id SERIAL PRIMARY KEY,
@@ -69,3 +85,4 @@ CREATE TABLE IF NOT EXISTS purchase (
     FOREIGN KEY (shipping_type_id) REFERENCES shipping_type(shipping_type_id)
 );
 
+ALTER TABLE purchase AUTO_INCREMENT = 3901;

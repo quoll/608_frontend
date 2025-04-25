@@ -53,6 +53,24 @@ To run the application:
   * This starts a web server on `localhost:5000`
 * Open a web browser and navigate to `http://localhost:5000/`
 
+### **NEW:** Docker
+You can also run this application using Docker.
+
+**Important:** Do not use a .env file with Docker. The environment variables are set in the Dockerfile.
+
+To use Docker, you will need to install [Docker Desktop](https://www.docker.com/products/docker-desktop) on your machine. Once installed, you can run the following commands in the project root directory:
+
+```bash
+docker-compose up --build
+```
+
+To reset the database, you can run:
+```bash
+docker-compose down -v
+```
+
+Once running, you can navigate a browser to `http://localhost:5001/` to view the application. Note that this is not the standard Flask port, as this conflicts with a system service on MacOS.
+
 ### `.env` file
 While environment variables can be set in the terminal, it is easier to set them in a `.env` file. The following variables are required:
 

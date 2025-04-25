@@ -1,0 +1,25 @@
+services:
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: mypass
+      MYSQL_DATABASE: shopping
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data:/docker-entrypoint-initdb.d
+
+  web:
+    build: .
+    environment:
+      FLASK_APP: app.py
+      FLASK_ENV: development
+      MYSQL_HOST: db
+      MYSQL_USER: root
+      MYSQL_PASS: mypass
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: shopping
+    ports:
+      - "5001:5000"
+    depends_on:
+      - db

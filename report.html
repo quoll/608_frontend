@@ -88,6 +88,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#ui-description" id="toc-ui-description" class="nav-link" data-scroll-target="#ui-description">UI Description</a>
   <ul class="collapse">
+  <li><a href="#new-docker" id="toc-new-docker" class="nav-link" data-scroll-target="#new-docker"><strong>NEW:</strong> Docker</a></li>
   <li><a href="#env-file" id="toc-env-file" class="nav-link" data-scroll-target="#env-file"><code>.env</code> file</a></li>
   </ul></li>
   <li><a href="#listing-pages" id="toc-listing-pages" class="nav-link" data-scroll-target="#listing-pages">Listing Pages</a>
@@ -181,14 +182,24 @@ Shopping Trends Crows Foot ER Diagram
 </ul></li>
 <li>Open a web browser and navigate to <code>http://localhost:5000/</code></li>
 </ul>
+<section id="new-docker" class="level3">
+<h3 class="anchored" data-anchor-id="new-docker"><strong>NEW:</strong> Docker</h3>
+<p>You can also run this application using Docker.</p>
+<p><strong>Important:</strong> Do not use a .env file with Docker. The environment variables are set in the Dockerfile.</p>
+<p>To use Docker, you will need to install <a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a> on your machine. Once installed, you can run the following commands in the project root directory:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker-compose</span> up <span class="at">--build</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To reset the database, you can run:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker-compose</span> down <span class="at">-v</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Once running, you can navigate a browser to <code>http://localhost:5001/</code> to view the application. Note that this is not the standard Flask port, as this conflicts with a system service on MacOS.</p>
+</section>
 <section id="env-file" class="level3">
 <h3 class="anchored" data-anchor-id="env-file"><code>.env</code> file</h3>
 <p>While environment variables can be set in the terminal, it is easier to set them in a <code>.env</code> file. The following variables are required:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSQL_USER</span> = <span class="op">&lt;</span>your_mysql_username<span class="op">&gt;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSQL_PASS</span> = <span class="op">&lt;</span>your_mysql_password<span class="op">&gt;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSQL_HOST</span> = localhost                 <span class="co"># your MySQL server name</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSQL_PORT</span> = 3306</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSQL_DATABASE</span> = <span class="op">&lt;</span>your_database_name<span class="op">&gt;</span>  <span class="co"># your database</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSQL_USER</span> = <span class="op">&lt;</span>your_mysql_username<span class="op">&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSQL_PASS</span> = <span class="op">&lt;</span>your_mysql_password<span class="op">&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSQL_HOST</span> = localhost                 <span class="co"># your MySQL server name</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSQL_PORT</span> = 3306</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSQL_DATABASE</span> = <span class="op">&lt;</span>your_database_name<span class="op">&gt;</span>  <span class="co"># your database</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="listing-pages" class="level2">
